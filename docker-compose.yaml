@@ -1,0 +1,43 @@
+version: '3'
+# docker-compose.yaml file for NGINX Proxy Manager on Firewalla Gold
+# More info at https://nginxproxymanager.com/
+services:
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    ports:
+# Change 443:443 below to WAN ports you want to use for SSL connectivity
+      - '443:443'
+    environment:
+      DB_MYSQL_HOST: "db"
+      DB_MYSQL_PORT: 3306
+      DB_MYSQL_USER: "npm"
+      DB_MYSQL_PASSWORD: "npm"
+      DB_MYSQL_NAME: "npm"
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      default:
+        # static IP address for nginxproxymanager
+        ipv4_address: 172.16.0.2
+  db:
+    image: 'jc21/mariadb-aria:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'npm'
+      MYSQL_DATABASE: 'npm'
+      MYSQL_USER: 'npm'
+      MYSQL_PASSWORD: 'npm'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      default:
+        # static IP address for database
+        ipv4_address: 172.16.0.3
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+     config:
+       # your chosen docker network here
+       - subnet: 172.16.0.0/24
