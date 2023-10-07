@@ -28,7 +28,8 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/ngnix/mysql:/var/lib/mysql
+
     networks:
       default:
         # static IP address for database
