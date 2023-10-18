@@ -14,8 +14,8 @@ services:
       DB_MYSQL_PASSWORD: "npm"
       DB_MYSQL_NAME: "npm"
     volumes:
-      - /data/ngnix:/data
-      - /data/ngnix/letsencrypt:/etc/letsencrypt
+      - /data/nginx:/data
+      - /data/nginx/letsencrypt:/etc/letsencrypt
     networks:
       default:
         # static IP address for nginxproxymanager
@@ -28,7 +28,7 @@ services:
       MYSQL_USER: 'npm'
       MYSQL_PASSWORD: 'npm'
     volumes:
-      - /data/ngnix/mysql:/var/lib/mysql
+      - /data/nginx/mysql:/var/lib/mysql
 
     networks:
       default:
